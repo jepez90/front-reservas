@@ -1,0 +1,20 @@
+<div class="modal" tabindex="-1" #modalError>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Error de Conexión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                    <p [innerHTML]="errorMessage"></p>
+                    <p>Revise su conexion a internet e intentelo nuevamente</p>
+                    <p>Puede que la API no este en servicio.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>

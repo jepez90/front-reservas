@@ -1,0 +1,41 @@
+<div class="container">
+    <form #myForm [ngClass]="{'was-validated' : wasValidated}">
+        <div class="mb-3">
+            <label for="username-field" class="form-label">Usuario o Correo Electrónico</label>
+            <input type="text" class="form-control" [(ngModel)]="username" [ngClass]="{'is-invalid' : usernameError}"
+                minlength="2" name="username" id="username-field" placeholder="correo@dominio.com" autofocus="autofocus"
+                required="required" (input)="onType($event)">
+            <div class="invalid-feedback" *ngIf="usernameError">
+                {{usernameError}}
+            </div>
+            <div class="invalid-feedback" *ngIf="!usernameError">
+                Debe ingresar un correo Válido
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="password-field" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" minlength="6" name="password" id="password-field"
+                placeholder="********" required="required" [(ngModel)]="password"
+                [ngClass]="{'is-invalid' : passwordError}" (input)="onType($event)">
+            <div class="invalid-feedback" *ngIf="passwordError">
+                {{passwordError}}
+            </div>
+            <div class="invalid-feedback" *ngIf="!passwordError">
+                Debe ingresar su contraseña
+            </div>
+        </div>
+
+
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="isConnecting">
+                <fa-icon *ngIf="isConnecting" [icon]="icons[0]" [pulse]="true"></fa-icon>
+                Submit
+            </button>
+        </div>
+
+    </form>
+
+
+</div>
+
+<app-connection-error [errorMessage]="errorMessage"></app-connection-error>
