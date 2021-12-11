@@ -72,11 +72,6 @@ export class LoginComponent implements OnInit {
 
       this.usernameError = err.error.username;
 
-      console.log("################################");
-      console.log(err.error.password);
-      console.log(err.error.username);
-      console.log("################################");
-
     this.isConnecting = false;
   }
 

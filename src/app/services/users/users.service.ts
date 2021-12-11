@@ -78,11 +78,9 @@ export class UsersService {
     this.storeToken(v);
 
     // perform a notification of succesfull login
-    const notif = new Notification(
-      'Inicio de sesion',
-      `Bienvenido ${v.username}`
-    );
-    notif.icon = "faUserCheck";
+
+    const notifConfig = { title: 'Inicio de sesion', icon: "faUserCheck" }
+    const notif = new Notification(`Bienvenido ${v.username}`, notifConfig);
     this.notifService.showNotification(notif);
   }
 

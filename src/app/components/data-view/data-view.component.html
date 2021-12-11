@@ -1,0 +1,120 @@
+<div class="justify-content-center form-inline">
+    <div class="custom-control custom-switch mb-2 mt-2 mr-sm-2">
+        <input type="checkbox" class="custom-control-input" id="mostrarPendientes" [(ngModel)]="hideEnded">
+        <label class="custom-control-label" for="mostrarPendientes">Mostras solo los Pendientes</label>
+    </div>
+    <button type="button" id="addBtn" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#myModal"
+        data-app-hora="" style="padding:1px; width:200px;">
+        <i class="fa fa-plus"></i> Agregar nueva Reserva
+    </button>
+</div>
+
+<div class="table-responsive-sm">
+    <table class="table table-bordered table-hover table-striped table-sm">
+        <thead class="table-dark">
+            <tr>
+
+                <th class="text-sm-center" scope="col">FECHA</th>
+                <th class="text-sm-center" scope="col">HORA</th>
+                <th class="text-sm-center" scope="col">ACCION</th>
+                <th class="text-sm-center" scope="col">PLACA</th>
+                <th class="text-sm-center" scope="col">TIPO DE REVISION</th>
+                <th class="text-sm-center" scope="col">CONDUCTOR</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let reserve of _data; index as i; first as isFirst">
+                <tr class="" [ngClass]="{'table-success' : reserve.ended}" *ngIf="!(reserve.ended && hideEnded)">
+                    <td class="text-sm-center">{{reserve.date}}</td>
+                    <td class="text-sm-center align-middle" rowspan="">{{reserve.hour}}</td>
+                    <td class="text-sm-center dropdown">
+                        Accion: {{reserve.ended}}
+                    </td>
+                    <td class="text-sm-center">
+                        {{reserve.plate}}
+                    </td>
+                    <td class="text-sm-center">
+                        {{service.revisionTypes[reserve.rev_type - 1]}}
+                    </td>
+                    <td class="text-sm-center">
+                        {{reserve.driver}}
+                    </td>
+
+                </tr>
+            </ng-container>
+        </tbody>
+
+    </table>
+</div>
+
+
+<!--
+    
+            <tr  id="U<%= i%>" class=" <% 
+                if(r.getEnListaBorde()!=0){ %>horaCero <% }%>">
+                <%//-------------celda de fecha o de hora rowspan----------------%>
+                <%if (!placa.equals("")) {%>
+                <td class="text-sm-center" ><%= r.getFechaReserva().getFecha() %></td>
+                <% } else{ if(r.getEnListaBorde()!=0){%>
+                <td class="text-sm-center  align-middle" rowspan="<%=r.getEnListaBorde() %>" data-toggle="tooltip" title="Total reservas en esta hora: <%=r.getEnListaBorde() %>"><%= r.getHoraReserva().getHoraDia()+" "+r.getHoraReserva().getAmPm()%></td>
+                <% }}
+                if (placa.equals("")) {%>
+                <td class="text-sm-center"><%= r.getHoraReserva().getHoraDia()+":"+r.getHoraReserva().getMinutos() %></td>
+                <% }else{%>
+                <td class="text-sm-center" ><%= r.getHoraReserva().getHora() %></td>
+                <% }
+
+                //-------------celda de accion----------------
+
+                if(r.getEnListaAccion()==1){//accion dropdown para registro pasado%>
+                <td class="text-sm-center dropdown">
+                    <button type="button"  id="U<%= i%>btn" data-toggle="dropdown"  data-app-hora="<%=r.getHoraReserva().getHora()%>"  data-app-hora="<%=r.getHoraReserva().getHora()%>" data-app-id="<%=r.getId() %>"   class="btn btn-outline-success btn-sm btn-block" style="padding:1px;" >
+                     <i class="fa fa-angle-double-down"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                      <% if(r.getFechaReserva().getFecha().equals(ahora.getFecha())){ %>
+                      <a class="dropdown-item " data-app-accion="1" data-toggle="modal"  href="#myModal">Marcar como Ingresado</a> 
+                      <%} else{%>
+                      <span class="dropdown-item disabled" style="cursor: not-allowed;pointer-events: all;">Marcar como Ingresado</span>
+                      <%} %>
+                      <span class="dropdown-item disabled" style="cursor: not-allowed;pointer-events: all;">Modificar Esta Cita</span>
+                      <a class="dropdown-item" data-app-accion="3" data-toggle="modal" href="#myModal">Agendar nueva cita para este vehículo</a>
+                      <span class="dropdown-item disabled" style="cursor: not-allowed;pointer-events: all;">Eliminar Esta Cita</span>
+                    </div>
+                 </td>
+                <% }else{//accion dropdown para registro futuro %>
+                <td class="text-sm-center dropdown">
+                    <button type="button"   id="U<%= i%>btn"  data-toggle="dropdown" data-app-hora="<%=r.getHoraReserva().getHora()%>" data-app-id="<%=r.getId() %>" class="btn btn-outline-success btn-sm btn-block" style="padding:1px;">
+                     <i class="fa fa-angle-double-down"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                      <% if(r.getFechaReserva().getFecha().equals(ahora.getFecha())){ %>
+                      <a class="dropdown-item " data-app-accion="1" data-toggle="modal"  href="#myModal">Marcar como Ingresado</a> 
+                      <%} else{%>
+                      <span class="dropdown-item disabled" style="cursor: not-allowed;pointer-events: all;">Marcar como Ingresado</span>
+                      <%} %>
+                      <a class="dropdown-item " data-app-accion="2" data-toggle="modal"  href="#myModal">Modificar Esta Cita</a>
+                      <span class="dropdown-item disabled" style="cursor: not-allowed;pointer-events: all;" >Agendar nueva cita para este vehículo</span>
+                      <a class="dropdown-item " data-app-accion="4">Eliminar Esta Cita</a>
+                      </div>
+                 </td>
+                <% }
+
+                //-------------celdas de informacion----------------
+                %>
+                <td class="text-sm-center" ><%= r.getPlaca() %></td>
+                <td class="text-sm-center" ><%= r.getTipoDeRevision() %></td>
+                <td class="text-sm-center" ><%= r.getPropietario().getDoc()  %></td>
+                <td class="text-sm-center" ><%= r.getPropietario().getNombres() %></td>
+                <td class="text-sm-center" ><%= r.getPropietario().getCelular() %></td>
+            </tr>
+    <% } }%>
+        </tbody>
+    </table>
+    
+    <%if(i==0){ %><div class=" text-center bg-danger text-white"><%=horario.getComentario() %></div><%} %>
+    <div class=" text-center">&copy;2020</div>
+
+</div>
+</div>
+-->
