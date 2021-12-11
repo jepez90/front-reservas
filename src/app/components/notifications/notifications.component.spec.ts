@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConnectionErrorComponent } from './connection-error.component';
+import { NotificationsComponent } from './notifications.component';
 
-describe('ConnectionErrorComponent', () => {
-  let component: ConnectionErrorComponent;
-  let fixture: ComponentFixture<ConnectionErrorComponent>;
+describe('NotificationComponent', () => {
+  let component: NotificationsComponent;
+  let fixture: ComponentFixture<NotificationsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConnectionErrorComponent ]
+      declarations: [ NotificationsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConnectionErrorComponent);
+    fixture = TestBed.createComponent(NotificationsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

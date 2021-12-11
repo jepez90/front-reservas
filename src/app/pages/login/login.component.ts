@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { LoginData, LoginResponse } from 'src/app/interfaces/login';
+import { LoginData, LoginResponse } from 'src/app/types/login';
 import { UsersService } from 'src/app/services/users/users.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
+
   username: string = '';
   usernameError: string = '';
 
@@ -21,10 +22,10 @@ export class LoginComponent implements OnInit {
 
   isConnecting = false;
 
-  errorMessage = '';
-
   @ViewChild('myForm') form!: ElementRef;
+
   wasValidated = false;
+
 
   constructor(private usersService: UsersService, private router: Router) { }
 
@@ -34,49 +35,52 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
+  handleSubmit(): void {
     // checks the validation
     if (this.form.nativeElement.checkValidity()) {
       // the data is valid
 
       //remove the validation highlight
+      this.wasValidated = false;
+
+      //prevent to re submit the form
       this.isConnecting = true;
 
-      this.wasValidated = false;
+      // try to perform the login
       const loginData: LoginData = {
         username: this.username,
         password: this.password,
       };
-      this.usersService.login(loginData).subscribe({
-        next: (v) => this.onSuccessResponse(v),
-        error: (e) => this.onErrorResponse(e),
+      this.usersService.requestLogin(loginData).subscribe({
+        next: (v) => this.onSuccessLogin(v),
+        error: (e) => this.onErrorLogin(e),
       });
     } else {
+      //if the data is invalid
       this.wasValidated = true;
     }
   }
 
-  onSuccessResponse(response: LoginResponse) {
+  onSuccessLogin(response: LoginResponse) {
     //redirect to the home
     this.router.navigate(['']);
   }
 
-  onErrorResponse(err: HttpErrorResponse) {
-    if (err.status == 0) {
-      // exist an error in the red
-      this.errorMessage = `No se pudo establecer la conexión con el servidor<br />
-      <strong>Error:</strong><br />${err.message}`;
-    } else {
+  onErrorLogin(err: HttpErrorResponse) {
       // if is an error returned by the API
       this.passwordError = err.error.password;
 
       this.usernameError = err.error.username;
-    }
+
+      console.log("################################");
+      console.log(err.error.password);
+      console.log(err.error.username);
+      console.log("################################");
 
     this.isConnecting = false;
   }
 
-  onType(evt: Event) {
+  handleInputType(evt: Event) {
     let elementName = (<HTMLInputElement>evt.target).name;
     if (elementName === 'username') {
       this.usernameError = '';
