@@ -17,7 +17,7 @@ import { NotificationsService } from './services/notifications/notifications.ser
     LoginComponent,
     HomeComponent,
     DataViewComponent,
-    NotificationsComponent
+    NotificationsComponent,
   ],
   imports: [
     BrowserModule,
