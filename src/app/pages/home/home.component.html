@@ -1,70 +1,70 @@
 <div class="container-fluid">
-    <h1 class="text-center"><a href="" class="text-decoration-none">Listado De Reservas</a></h1>
+    <h1 class="text-center">
+        <a href="" class="text-decoration-none">Listado De Reservas</a>
+    </h1>
 </div>
 
-
-<nav class="nav justify-content-center bg-secondary navbar-light sticky-top navbar-expand-lg ">
+<nav class="
+    nav
+    justify-content-center
+    bg-secondary
+    navbar-light
+    sticky-top
+    navbar-expand-lg
+  ">
     <form #customDataForm class="row row-cols-sm-auto mb-3 mt-2 g-2 align-items-center" autocomplete="off"
-        [ngClass]="{'was-validated' : wasValidated}" novalidate>
-        <div class="col-12 ">
+        [ngClass]="{ 'was-validated': wasValidated }" novalidate>
+        <div class="col-12">
             <div class="input-group">
                 <label for="Placa" class="input-group-text" id="label-for-placa">Placa</label>
                 <input type="text" class="form-control" autofocus="autofocus" name="Placa" id="Placa"
                     pattern="([A-Za-z]{3}[0-9]{3}|[A-Za-z]{3}[0-9]{2}|[A-Za-z]{3}[0-9]{2}[A-Za-z]{1})" tabindex="1"
                     title="El valor placa no es válido" size="8" maxlength="6" [(ngModel)]="carPlate"
-                    aria-label="Sizing example input" aria-describedby="label-for-placa">
-                <div class="invalid-tooltip">
-                    Looks good!
-                </div>
+                    aria-label="Sizing example input" aria-describedby="label-for-placa" />
+                <div class="invalid-tooltip">Looks good!</div>
             </div>
         </div>
 
-        <div class="col-12 ">
+        <div class="col-12">
             <div class="input-group">
                 <label for="Fecha" class="input-group-text" id="label-for-fecha">Fecha</label>
                 <input type="text" class="form-control" required="required" name="Fecha" id="Fecha"
                     (input)="validateDate($event)" [(ngModel)]="chosenDate" tabindex="2" size="10"
-                    aria-label="Sizing example input" aria-describedby="label-for-fecha">
+                    aria-label="Sizing example input" aria-describedby="label-for-fecha" />
                 <div class="invalid-tooltip">
-                    {{dateError}}
+                    {{ dateError }}
                 </div>
+                <label for="datePicker" class="input-group-text" id="label-for-datepicker" (click)="togleDatePicker()"><fa-icon [icon]="icons['faCalendarAlt']" class=""></fa-icon></label>
 
+            </div>
+
+            <div style="position: relative;" *ngIf="showDatePicker">
+                <app-date-picker id="datePicker" [date]="chosenDate" (dateChangeEvent)="dateChangeEvent($event)"></app-date-picker>
             </div>
         </div>
 
         <div class="col-12" *ngFor="let carType of service.carTypes; index as i; first as isFirst">
-            <input name="{{i}}" type="submit" (click)="handleSubmit($event)"
-                class="btn btn-outline-dark mr-sm-2 font-weight-bold" [ngClass]="{'active' : checkCartype(i)}"
-                id="{{carType}}" tabindex="{{i+2}}" title="Actualizar Listado" value="{{carType}}" />
-
+            <input name="{{ i }}" type="submit" (click)="handleSubmit($event)"
+                class="btn btn-outline-dark mr-sm-2 font-weight-bold" [ngClass]="{ active: checkCartype(i) }"
+                id="{{ carType }}" tabindex="{{ i + 2 }}" title="Actualizar Listado" value="{{ carType }}" />
         </div>
 
         <div class="col-12">
-            <button class="btn btn-outline-dark " data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+            <button class="btn btn-outline-dark" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                 aria-controls="offcanvasRight">
-                <fa-icon [icon]="icons[0]" class=""></fa-icon>
+                <fa-icon [icon]="icons['faEllipsisV']" class=""></fa-icon>
             </button>
         </div>
-
-
-
     </form>
 </nav>
 <div class="container">
     <app-data-view [data]="data"></app-data-view>
 </div>
 
-
-
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h5 id="offcanvasRightLabel">Offcanvas right</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
-
-
-
-
-    </div>
+    <div class="offcanvas-body"></div>
 </div>

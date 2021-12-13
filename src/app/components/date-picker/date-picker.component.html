@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="panel">
+        <div class="date-panel">
+            <div class="date-panel-header">
+                <span class="left-arrow" (click)="prevMonth()">
+                    <fa-icon [icon]="icons['faChevronLeft']" class=""></fa-icon>
+                </span>
+                <div class="date-panel-header-view">
+                    <span class="month-label"
+                        (click)="showMonthSelector()">{{MONTHS[viewedDate.getMonth()].name}}</span>
+
+                    <span class="year-label" (click)="showYearSelector()">{{viewedDate.getFullYear()}}</span>
+                </div>
+
+                <span class="right-arrow" (click)="nextMonth()">
+                    <fa-icon [icon]="icons['faChevronRight']" class=""></fa-icon>
+                </span>
+            </div>
+            <div class="date-panel-body">
+                <div class="body-day-selection selector-container" *ngIf="view==0">
+                    <ng-container *ngFor="let day of DAYS; index as i; last as last">
+                        <div class="dayTitle selector-item">{{day.shortName}}</div>
+                    </ng-container>
+                    <ng-container *ngFor="let date of dates; index as i; last as last">
+                        <div id="date_{{i}}"
+                            [ngClass]="{'weekend':date.isWeekend, 'selected':date.isSelected, 'prev':date.isPrev, 'next':date.isNext}"
+                            class="day" (click)="daySelection($event)">{{date.value}}</div>
+                    </ng-container>
+                </div>
+                <div class="body-month-selection selector-container" *ngIf="view==1">
+                    <ng-container *ngFor="let month of MONTHS; index as i">
+                        <div class="month" id="month_{{i}}" [ngClass]="{'selected': i == viewedDate.getMonth()}"
+                            (click)="monthSelection($event)">{{month.shortName}}</div>
+                    </ng-container>
+                </div>
+                <div class="body-year-selection selector-container " *ngIf="view==2">
+                    <div class="btn-prev year" id="year_100" (click)="yearSelection($event)">
+                        <fa-icon [icon]="icons['faChevronLeft']" class=""></fa-icon>
+                    </div>
+                    <ng-container *ngFor="let year of years; index as i">
+                        <div class="year" id="year_{{i}}" (click)="yearSelection($event)"
+                            [ngClass]="{'selected': year == viewedDate.getFullYear()}">
+                            {{year}}</div>
+                    </ng-container>
+                    <div class="btn-prev year" id="year_200" (click)="yearSelection($event)">
+                        <fa-icon [icon]="icons['faChevronRight']" class=""></fa-icon>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,6 +10,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { DataViewComponent } from './components/data-view/data-view.component';
 import { NotificationsComponent } from './components/notifications/notifications.component'
 import { NotificationsService } from './services/notifications/notifications.service';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { NotificationsService } from './services/notifications/notifications.ser
     HomeComponent,
     DataViewComponent,
     NotificationsComponent,
+    DatePickerComponent,
   ],
   imports: [
     BrowserModule,

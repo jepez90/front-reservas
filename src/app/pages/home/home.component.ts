@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { faEllipsisV, faUserCog } from '@fortawesome/free-solid-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { ReservesService } from 'src/app/services/reserves/reserves.service';
 import { ReserveFetchData } from 'src/app/types/reservs';
 
@@ -44,7 +44,8 @@ export class HomeComponent implements OnInit {
   public chosenDate: string = "";
   public dateError: string = "";
   public wasValidated = false;
-  public icons = [faEllipsisV, faUserCog];
+  public icons = fas;
+  public showDatePicker = false;
 
   data: Array<any> = [];
   @ViewChild('customDataForm') form!: ElementRef;
@@ -95,6 +96,20 @@ export class HomeComponent implements OnInit {
       this.wasValidated = true;
     }
 
+  }
+
+  togleDatePicker(){
+    if (this.showDatePicker == false){
+      this.showDatePicker =true;
+
+    }else{
+      this.showDatePicker = false;
+    }
+  }
+
+  dateChangeEvent(date:string){
+    this.chosenDate=date;
+    this.togleDatePicker();
   }
 
   /**
