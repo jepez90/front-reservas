@@ -1,0 +1,203 @@
+<!-- The Modal eliminar registro -->
+<div class="modal fade" id="ModalEliminar">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Eliminar Reserva</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body text-sm-center">
+                <i class="fa-exclamation-triangle fa fa-3x text-danger"></i><br />En
+                realidad desea eliminar la reserva de la placa
+                <span id="preguntaEliminar">?</span>
+            </div>
+
+            <!-- Modal footer -->
+            <form class="modal-footer form-row" method="post" accept-charset="utf-8" title="Eliminar registro">
+                <div class="col">
+                    <input type="submit" name="eliminar" id="eliminar" class="form-control btn btn-danger"
+                        value="Eliminar" tabindex="17" />
+                </div>
+
+                <div class="col">
+                    <input type="button" name="button7" id="button7" class="form-control btn btn-secondary"
+                        value="Cancelar" tabindex="18" data-dismiss="modal" />
+                </div>
+
+                <input type="hidden" name="idReserva" id="idReserva" value="0" />
+                <input type="hidden" name="Fecha" id="FechaE" value="<%= horario.getFecha().getFecha()%>" />
+                <input type="hidden" name="accion" id="accionE" value="6" />
+                <input type="hidden" name="Placa" id="PlacaE" value="" />
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal nuevo registro -->
+<div class="modal fade" #modalEdit data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Agregar Registro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form autocomplete="off" id="NuevoRegistroForm" title="Añadir registro" class="">
+                    <div class="row ">
+                        <label for="Tipo" class="col-form-label col-sm-4"> Tipo:</label>
+                        <div class="col-sm-8">
+                            <select name="Tipo" required="required" class="form-control noEstado form-control-sm"
+                                id="Tipo" tabindex="7">
+                                <option value="1">Inspección</option>
+                                <option value="2">Reinspección</option>
+                                <option value="3">Preventiva</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <label class="col-form-label col-sm-4" for="FechaNueva">
+                            Fecha:
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text" name="FechaNueva" required="required" id="FechaNueva"
+                                class="form-control noEstado form-control-sm" tabindex="5"
+                                pattern="[2][0][0-3][0-9]-[0-1][0-9]-[0-3][0-9]" value="2020-20-20" />
+                        </div>
+                    </div>
+
+                    <div class="row ">
+                        <label class="col-form-label col-sm-4" for="Hora"> Hora: </label>
+                        <div class="col-sm-8">
+                            <input class="form-control form-control-sm" name="Hora" type="text" id="Hora"
+                                pattern="[0-2][0-9]:[0-5][0-9]:[0-5][0-9]" title="Hora" tabindex="6" size="8"
+                                maxlength="8" value="20:00:00" required="required" />
+                        </div>
+                    </div>
+
+                    <div class="row ">
+                        <label for="PlacaNueva" class="col-form-label col-sm-4">
+                            Placa:
+                        </label>
+                        <div class="col-sm-8">
+                            <input name="PlacaNueva" type="text" autofocus="autofocus" required="required"
+                                class="form-control form-control-sm" id="PlacaNueva" pattern="" tabindex="8"
+                                title="La placa ingresada es inválida" size="8" maxlength="6" />
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <label for="TipoRevision" class="col-form-label col-sm-4">
+                            Tipo de revision:
+                        </label>
+                        <div class="col-sm-8">
+                            <select name="TipoRevision" required="required"
+                                class="form-control noEstado form-control-sm" id="TipoRevision" tabindex="9">
+                                <option value="1">Inspección</option>
+                                <option value="2">Reinspección</option>
+                                <option value="3">Preventiva</option>
+                            </select>
+                        </div>
+                    </div>
+                    <fieldset>
+                        <legend>Datos Del Propietario</legend>
+                        <div class="row ">
+                            <label for="Cedula" class="col-form-label col-sm-4">
+                                Cédula:
+                            </label>
+                            <div class="col-sm-8">
+                                <input name="Cedula" type="tel" required="required" class="form-control form-control-sm"
+                                    id="Cedula" pattern="\d{5,10}" maxlength="10"
+                                    title="La cédula ingresada es incorrecta" tabindex="10" />
+                            </div>
+                        </div>
+
+                        <div class="row ">
+                            <label for="Nombre" class="col-form-label col-sm-4">
+                                Nombre:
+                            </label>
+                            <div class="col-sm-8">
+                                <input name="Nombre" type="text" required="required"
+                                    class="form-control noEstado form-control-sm" id="Nombre" maxlength="100"
+                                    tabindex="11" pattern="\D{5,100}" title="El nombre ingresado no es válido" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label for="Celular" class="col-form-label col-sm-4">
+                                Celular:
+                            </label>
+                            <div class="col-sm-8">
+                                <input name="Celular" type="tel" required="required"
+                                    class="form-control noEstado form-control-sm" id="Celular" maxlength="10"
+                                    tabindex="12" pattern="\d{7,10}"
+                                    title="El celular o telefono ingresado no es válido" />
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-sm-4 col-form-label">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" checked="checked" type="checkbox" tabindex="13"
+                                        role="switch" id="EsMismoConductor" name="EsMismoConductor" />
+                                </div>
+                            </div>
+                            <label class="col-form-label col-sm-8" for="EsMismoConductor">
+                                El Propietario es el mismo Conductor
+                            </label>
+                        </div>
+                    </fieldset>
+                    <fieldset class="collapse">
+                        <legend>Datos Del Conductor</legend>
+                        <div class="row ">
+                            <label for="CedulaC" class="col-form-label col-sm-4">
+                                Cédula:
+                            </label>
+                            <div class="col-sm-8 ">
+                                <input name="CedulaC" type="tel" class="form-control form-control-sm" id="CedulaC"
+                                    pattern="\d{5,10}" maxlength="10" title="La cédula ingresada es incorrecta"
+                                    tabindex="14" />
+
+                            </div>
+                        </div>
+
+                        <div class="row ">
+                            <label for="NombreC" class="col-form-label col-sm-4">Nombre:</label>
+                            <div class="col-sm-8 ">
+                                <input name="NombreC" type="text" class="form-control form-control-sm noEstado"
+                                    id="NombreC" maxlength="100" tabindex="15" pattern="\D{5,100}"
+                                    title="El nombre ingresado no es válido" />
+                            </div>
+                        </div>
+
+                        <div class="row ">
+                            <label for="CelularC" class="col-form-label col-sm-4">
+                                Celular:
+                            </label>
+                            <div class="col-sm-8 ">
+                                <input name="CelularC" type="tel" class="form-control form-control-sm noEstado"
+                                    id="CelularC" maxlength="10" tabindex="16" pattern="\d{7,10}"
+                                    title="El celular o telefono ingresado no es válido" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-sm-6 text-center">
+                        <input type="submit" name="submit" id="submit" class="btn btn-success" value="Registrar"
+                            tabindex="17" />
+                    </div>
+                    <div class="col-sm-6 text-center">
+                        <input type="button" name="button6" id="button6" class="btn btn-danger" value="Cancelar"
+                            tabindex="18" data-bs-dismiss="modal" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

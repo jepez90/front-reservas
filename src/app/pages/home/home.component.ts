@@ -51,17 +51,19 @@ export class HomeComponent implements OnInit {
   @ViewChild('customDataForm') form!: ElementRef;
 
   constructor(public service: ReservesService) {
-    // let today = new MyDate()
-    let today = new MyDate()
-    today.setMonth(9);
-    today.setDate(18);
+    let today = new MyDate();
     this.chosenDate = today.getISODate()
   }
 
 
 
   ngOnInit(): void {
+    let data: ReserveFetchData = {
+      params: { date: this.chosenDate, car_type: 1 }
 
+    }
+
+    this.requestData(data);
   }
 
   handleSubmit(evt: Event) {
@@ -75,21 +77,13 @@ export class HomeComponent implements OnInit {
         // when a plate is given, doesn't highlight any submit button
         this.carType = -1;
         data.params.plate = this.carPlate;
-        this.service.fetchPlateList(data).subscribe({
-          next: (v) => this.onSuccessFetch(v),
-          error: (e) => this.onErrorFetch(e),
-        });
+        this.requestData(data);
       }
       else {
         data.params.date = this.chosenDate;
         data.params.car_type = this.carType + 1;
-
-        this.service.fetchDayList(data).subscribe({
-          next: (v) => this.onSuccessFetch(v),
-          error: (e) => this.onErrorFetch(e),
-        });
+        this.requestData(data);
       }
-
       this.wasValidated = false;
     }
     else {
@@ -97,18 +91,24 @@ export class HomeComponent implements OnInit {
     }
 
   }
+  requestData(data: ReserveFetchData): void {
+    this.service.fetchDayList(data).subscribe({
+      next: (v) => this.onSuccessFetch(v),
+      error: (e) => this.onErrorFetch(e),
+    });
+  }
 
-  togleDatePicker(){
-    if (this.showDatePicker == false){
-      this.showDatePicker =true;
+  togleDatePicker() {
+    if (this.showDatePicker == false) {
+      this.showDatePicker = true;
 
-    }else{
+    } else {
       this.showDatePicker = false;
     }
   }
 
-  dateChangeEvent(date:string){
-    this.chosenDate=date;
+  dateChangeEvent(date: string) {
+    this.chosenDate = date;
     this.togleDatePicker();
   }
 

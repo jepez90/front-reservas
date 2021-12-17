@@ -25,8 +25,8 @@
             </div>
         </div>
 
-        <div class="col-12">
-            <div class="input-group">
+        <div class="col-12" id="date-group">
+            <div class="input-group" >
                 <label for="Fecha" class="input-group-text" id="label-for-fecha">Fecha</label>
                 <input type="text" class="form-control" required="required" name="Fecha" id="Fecha"
                     (input)="validateDate($event)" [(ngModel)]="chosenDate" tabindex="2" size="10"
@@ -68,3 +68,5 @@
     </div>
     <div class="offcanvas-body"></div>
 </div>
+
+

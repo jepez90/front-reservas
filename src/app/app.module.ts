@@ -11,6 +11,7 @@ import { DataViewComponent } from './components/data-view/data-view.component';
 import { NotificationsComponent } from './components/notifications/notifications.component'
 import { NotificationsService } from './services/notifications/notifications.service';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
+import { DataEditComponent } from './components/data-edit/data-edit.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { DatePickerComponent } from './components/date-picker/date-picker.compon
     DataViewComponent,
     NotificationsComponent,
     DatePickerComponent,
+    DataEditComponent,
   ],
   imports: [
     BrowserModule,

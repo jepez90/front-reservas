@@ -1,4 +1,43 @@
 .ended {
-    background-color: #D2F4EA;
+  background-color: #d2f4ea;
 }
 
+.now {
+  -webkit-animation: progress-bar-stripes 2s linear infinite;
+  -o-animation: progress-bar-stripes 2s linear infinite;
+  animation: progress-bar-stripes 2s linear infinite;
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
+  -webkit-background-size: 40px 40px;
+  background-size: 40px 40px;
+}
+.btn {
+  width: 32px;
+  --bs-bg-opacity: 0.25;
+}
+.btn:hover {
+  --bs-bg-opacity: 0.9;
+}
+.btn:disabled {
+  color: gray;
+  --bs-bg-opacity: 0.1;
+}
+.actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+td {
+  white-space: nowrap;
+}
