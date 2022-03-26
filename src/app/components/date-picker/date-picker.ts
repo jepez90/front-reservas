@@ -1,5 +1,5 @@
 import { ThrowStmt } from '@angular/compiler';
-import { MyDate } from './MyDate';
+import { MyDate } from '../../types/MyDate';
 
 interface IConfigObject {
   parentSelector?: string;

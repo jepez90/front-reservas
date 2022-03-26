@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { MyDate } from './MyDate';
+import { MyDate } from '../../types/MyDate';
 import { Output, EventEmitter } from '@angular/core';
 
 @Component({

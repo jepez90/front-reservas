@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
 
   onSuccessLogin(response: LoginResponse) {
     //redirect to the home
-    this.router.navigate(['']);
+    this.router.navigate(['settings']);
   }
 
   onErrorLogin(err: HttpErrorResponse) {

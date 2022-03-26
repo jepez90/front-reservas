@@ -1,0 +1,299 @@
+<div class="container">
+  <h1>Configuraciones de horario</h1>
+</div>
+
+<div class="container">
+  <fieldset>
+    <div class="row mb-2">
+      <label for="field-date-aply-from" class="col-md-3 col-form-label">
+        Aplica a partir de:
+      </label>
+      <div class="col-md-3">
+        <input
+          type="date"
+          class="form-control form-control-sm"
+          id="field-date-aply-from"
+          [(ngModel)]="dateFrom"
+        />
+      </div>
+    </div>
+
+    <!-- column header-->
+    <div class="row gx-1 row_custom">
+      <ng-container *ngFor="let day of data; index as i; first as f">
+        <div
+          class="col"
+          *ngIf="day.groupedBy == day.dayOfWeek"
+          [ngClass]="{ removing: day.isRemoving }"
+        >
+          <!-- boton de agrupar -->
+          <button
+            type="button"
+            class="btn btn-link float-start icon-link"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="Agrupar Este Dia con el mismo horario del Dia anterior"
+            *ngIf="!f"
+            id="toUngroup_{{ i }}"
+            (click)="toGroup($event)"
+          >
+            <fa-icon [icon]="icons['faChevronLeft']"></fa-icon>
+          </button>
+
+          <h5>{{ NAME_DAYS[i] }}</h5>
+
+          <ng-container *ngFor="let groupDay of day.group">
+            <div class="stacked-day">
+              <!-- boton de DESagrupar -->
+              <button
+                type="button"
+                class="btn btn-link float-start icon-link"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Desagrupar este Dia para poder establecerle su propio horario"
+                id="toUngroup_{{ groupDay }}"
+                (click)="toUngroup($event)"
+              >
+                <fa-icon [icon]="icons['faChevronRight']"></fa-icon>
+              </button>
+
+              <h6>{{ NAME_DAYS[groupDay] }}</h6>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- column body -->
+    <div class="row gx-1 row_custom mt-3" style="align-items: flex-start">
+      <ng-container *ngFor="let day of data; index as i">
+        <div
+          class="col mb-4"
+          *ngIf="day.groupedBy == day.dayOfWeek"
+          [ngClass]="{ removing: day.isRemoving }"
+        >
+          <div class="form-check form-switch mb-2">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="isOpen_{{ i }}"
+              name="isOpen_{{ i }}"
+              [(ngModel)]="day.isOpen"
+            />
+            <label class="form-check-label" for="isOpen_{{ i }}">
+              Abierto
+            </label>
+          </div>
+
+          <div [ngClass]="{ invisible: !day.isOpen }">
+            <!-- horario -->
+            <div class="form-floating mb-1">
+              <input
+                type="time"
+                class="form-control form-control-sm"
+                step="600"
+                id="field-hour-open_{{ i }}"
+                name="field-hour-open_{{ i }}"
+                [(ngModel)]="day.openAt.strTime"
+              />
+              <label for="field-hour-open_{{ i }}"> Abre a las: </label>
+            </div>
+
+            <div class="form-floating mb-4">
+              <input
+                type="time"
+                class="form-control form-control-sm"
+                step="600"
+                id="field-hour-close_{{ i }}"
+                name="field-hour-close_{{ i }}"
+                [(ngModel)]="day.closeAt.strTime"
+              />
+              <label for="field-hour-close_{{ i }}"> Cierra a las: </label>
+            </div>
+            <!--  inicia seccion de segmentos -->
+            <!-- resumen -->
+            <div class="d-grid mb-1">
+              <p class="text-center">
+                <strong>{{ day.totalXday() }}</strong> reservas por dia
+              </p>
+            </div>
+
+            <ng-container
+              *ngIf="
+                day.segments.length == 1;
+                then singleSegment;
+                else multipleSegments
+              "
+            >
+            </ng-container>
+            <!-- segmento cuando solo hay uno -->
+
+            <ng-template #singleSegment>
+              <div class="card">
+                <div class="card-body p-2">
+                  <select
+                    class="form-select form-select-sm mb-1"
+                    aria-label="Seleccion de Reservas por grupo"
+                    id="reservs_x_hour_{{ day.dayOfWeek }}_0"
+                    [(ngModel)]="day.segments[0].reservXgroup"
+                    (change)="updateGroupSelection($event)"
+                  >
+                    <option
+                      *ngFor="
+                        let option of RESERVAS_X_HORA;
+                        index as idxOption;
+                        first as fOption
+                      "
+                      [value]="option"
+                    >
+                      {{ option }} {{ fOption ? "Reserva" : "Reservas" }}
+                    </option>
+                  </select>
+
+                  <select
+                    class="form-select form-select-sm"
+                    aria-label="Seleccion de Grupos por hora"
+                    [(ngModel)]="day.segments[0].groupXhour"
+                  >
+                    <option
+                      *ngFor="let option of COMBINATIONS_GROUPS"
+                      [value]="option"
+                      [disabled]="
+                        isGroupDisabled(day.segments[0].reservXgroup, option)
+                      "
+                    >
+                      Cada {{ 60 / option }} Minutos
+                    </option>
+                  </select>
+
+                  <div class="d-grid mb-1">
+                    <span class="text-center">
+                      <strong>{{ day.totalXhour(0) }}</strong> reservas por hora
+                    </span>
+                  </div>
+                  <div class="text-center">
+                    <fa-icon
+                      [icon]="icons['faMinus']"
+                      class="btn btn-danger disabled btn-sm p-1"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="bottom"
+                      title="Eliminar Segmento"
+                      style="line-height: 10px"
+                    ></fa-icon>
+                    <fa-icon
+                      [icon]="icons['faPlus']"
+                      class="btn btn-success btn-sm p-1 ms-2"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="bottom"
+                      title="Agregar Nuevo Segmento"
+                      style="line-height: 10px"
+                    ></fa-icon>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+
+            <!-- segmentos cuando hay varios -->
+            <ng-template #multipleSegments>
+              <ng-container
+                *ngFor="
+                  let segment of day.segments;
+                  index as segmentIdx;
+                  first as isFirstSegment;
+                  last as isLastSegment
+                "
+              >
+                <input
+                  class="form-control form-control-sm"
+                  type="time"
+                  aria-label="Inicio de segmento"
+                  id="field-hour-start_segment_{{ i }}"
+                  name="field-hour-start_segment_{{ i }}"
+                  *ngIf="isFirstSegment"
+                  [value]="day.openAt.strTime"
+                  disabled
+                />
+                <div class="card mx-2 my-1">
+                  <div class="card-body p-1">
+                    <select
+                      class="form-select form-select-sm mb-1"
+                      aria-label="Seleccion de Reservas por grupo"
+                      id="reservs_x_hour_{{ day.dayOfWeek }}_{{ segmentIdx }}"
+                      [(ngModel)]="segment.reservXgroup"
+                      (change)="updateGroupSelection($event)"
+                    >
+                      <option
+                        *ngFor="
+                          let option of RESERVAS_X_HORA;
+                          index as idxOption;
+                          first as fOption
+                        "
+                        [value]="option"
+                      >
+                        {{ option }} {{ fOption ? "Reserva" : "Reservas" }}
+                      </option>
+                    </select>
+
+                    <select
+                      class="form-select form-select-sm"
+                      aria-label="Seleccion de Grupos por hora"
+                      [(ngModel)]="segment.groupXhour"
+                    >
+                      <option
+                        *ngFor="let option of COMBINATIONS_GROUPS"
+                        [value]="option"
+                        [disabled]="
+                          isGroupDisabled(segment.reservXgroup, option)
+                        "
+                      >
+                        Cada {{ 60 / option }} Minutos
+                      </option>
+                    </select>
+
+                    <div class="d-grid mb-1">
+                      <span class="text-center">
+                        <strong>{{ day.totalXhour(segmentIdx) }}</strong>
+                        reservas por hora
+                      </span>
+                    </div>
+
+                    <div class="text-center">
+                      <fa-icon
+                        [icon]="icons['faMinus']"
+                        class="btn btn-danger btn-sm p-1"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="bottom"
+                        title="Eliminar Segmento"
+                        style="line-height: 10px"
+                        (click)="day.removeSegment(segmentIdx)"
+                      ></fa-icon>
+                      <fa-icon
+                        [icon]="icons['faPlus']"
+                        class="btn btn-success btn-sm p-1 ms-2"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="bottom"
+                        title="Agregar Nuevo Segmento"
+                        style="line-height: 10px"
+                        (click)="day.divideSegment(segmentIdx)"
+                      ></fa-icon>
+                    </div>
+                  </div>
+                </div>
+                <input
+                  class="form-control form-control-sm"
+                  type="time"
+                  aria-label="Inicio de segmento"
+                  id="field-hour-start_segment_{{ i }}"
+                  name="end_{{ i }}"
+                  [(ngModel)]="isLastSegment?day.closeAt.strTime:segment.end.strTime"
+                  [disabled]="isLastSegment"
+                />
+              </ng-container>
+            </ng-template>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </fieldset>
+</div>

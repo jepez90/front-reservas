@@ -1,49 +1,42 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Modal } from 'bootstrap';
-import { MyDate } from '../date-picker/MyDate';
+import { ReservesService } from 'src/app/services/reserves/reserves.service';
+import { IDataReserv } from 'src/app/types/reservs';
 
-export interface IDateReserv {
-  id: number;
-  driver: string;
-  registered_date: Date;
-  updated_date: Date;
-  date: MyDate;
-  hour: string;
-  plate: string;
-  ended: boolean;
-  active: boolean;
-  car_type: number;
-  rev_type: number;
-  owner: number;
-}
 @Component({
   selector: 'app-data-edit',
   templateUrl: './data-edit.component.html',
   styleUrls: ['./data-edit.component.css'],
 })
 export class DataEditComponent implements OnInit {
-  private _data!: IDateReserv;
+  private _data!: IDataReserv;
+
   @ViewChild('modalEdit') modalEdit!: ElementRef;
 
-  @Input() set data(value: IDateReserv) {
-
-    this._data = value;
-    this.showModal();
-  }
-
-  constructor() {}
+  constructor(private _service: ReservesService) {}
 
   ngOnInit(): void {
-    window.setTimeout(this.showModal, 1000, this);
-    console.log(this.modalEdit);
+    this.service.reservsToEdit$.subscribe({
+      next: (data) => {
+        this.data = data;
+        this.showModal();
+      },
+    });
   }
 
   showModal() {
     const modal = new Modal(this.modalEdit.nativeElement);
     modal.show();
   }
-  
-  public get data(): IDateReserv {
+
+  public get data(): IDataReserv {
     return this._data;
+  }
+  public set data(value: IDataReserv) {
+    this._data = value;
+  }
+
+  public get service(): ReservesService {
+    return this._service;
   }
 }

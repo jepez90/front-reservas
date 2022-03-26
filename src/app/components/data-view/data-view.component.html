@@ -1,89 +1,68 @@
 <div class="justify-content-center form-inline">
-  <div class="custom-control custom-switch mb-2 mt-2 mr-sm-2">
-    <input
-      type="checkbox"
-      class="custom-control-input"
-      id="mostrarPendientes"
-      [(ngModel)]="hideEnded"
-    />
-    <label class="custom-control-label" for="mostrarPendientes"
-      >Mostras solo los Pendientes</label
-    >
-  </div>
-  <button
-    type="button"
-    id="addBtn"
-    class="btn btn-outline-success btn-sm"
-    data-toggle="modal"
-    data-target="#myModal"
-    data-app-hora=""
-    style="padding: 1px; width: 200px"
-  >
-    <i class="fa fa-plus"></i> Agregar nueva Reserva
-  </button>
+    <div class="custom-control custom-switch mb-2 mt-2 mr-sm-2">
+        <input type="checkbox" class="custom-control-input" id="mostrarPendientes" [(ngModel)]="hideEnded" />
+        <label class="custom-control-label" for="mostrarPendientes">Mostras solo los Pendientes</label>
+    </div>
+    <button type="button" id="addBtn" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#myModal"
+        data-app-hora="" style="padding: 1px; width: 200px">
+        <i class="fa fa-plus"></i> Agregar nueva Reserva
+    </button>
 </div>
 <div class="lg">
-  <div class="table-responsive-lg">
-    <table class="table table-bordered table-hover table-striped table-sm">
-      <thead class="table-dark">
-        <tr>
-          <th class="text-sm-center" scope="col">FECHA</th>
-          <th class="text-sm-center" scope="col">HORA</th>
-          <th class="text-sm-center" scope="col">ACCION</th>
-          <th class="text-sm-center" scope="col">PLACA</th>
-          <th class="text-sm-center" scope="col">TIPO DE REVISION</th>
-          <th class="text-sm-center" scope="col">CONDUCTOR</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container
-          *ngFor="let reserve of _data; index as i; first as isFirst"
-        >
-          <tr
-            class=""
-            [ngClass]="{
+    <div class="table-responsive-lg">
+        <table class="table table-bordered table-hover table-striped table-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th class="text-sm-center" scope="col">FECHA</th>
+                    <th class="text-sm-center" scope="col">HORA</th>
+                    <th class="text-sm-center" scope="col">ACCION</th>
+                    <th class="text-sm-center" scope="col">PLACA</th>
+                    <th class="text-sm-center" scope="col">TIPO DE REVISION</th>
+                    <th class="text-sm-center" scope="col">CONDUCTOR</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let reserve of service.reservsData; index as i; first as isFirst">
+                    <tr class="" [ngClass]="{
               'table-success': reserve.ended,
               'bg-secondary progress-bar-striped progress-bar-animated':
                 isNow(reserve)
-            }"
-            *ngIf="!(reserve.ended && hideEnded)"
-          >
-            <td class="text-sm-center">{{ reserve.date }}</td>
-            <td class="text-sm-center align-middle" rowspan="">
-              {{ reserve.hour }}
-            </td>
-            <td class="text-sm-center actions">
-              <button id="btn_plus_{{i}}" class="btn btn-sm px-2 mx-1 btn-outline-primary bg-primary rounded-circle" (click)="showModal($event)">
-                <fa-icon [icon]="icons['faPlus']" class=""></fa-icon>
-              </button>
-              <button class="btn btn-outline-secondary bg-secondary  btn-sm px-2 mx-1 rounded-circle">
-                <fa-icon [icon]="icons['faWrench']" class=""></fa-icon>
-              </button>
-              <button class="btn btn-outline-danger bg-danger btn-sm px-2 mx-1 rounded-circle ">
-                <fa-icon [icon]="icons['faTimes']" class=""></fa-icon>
-              </button>
-              <button class="btn btn-outline-success bg-success btn-sm px-2 mx-1 rounded-circle" disabled>
-                <fa-icon [icon]="icons['faCheck']" class=""></fa-icon>
-              </button>
-            </td>
-            <td class="text-sm-center">
-              {{ reserve.plate }}
-            </td>
-            <td class="text-sm-center">
-              {{ service.revisionTypes[reserve.rev_type - 1] }}
-            </td>
-            <td class="text-sm-center">
-              {{ reserve.driver }}
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-  </div>
+            }" *ngIf="!(reserve.ended && hideEnded)">
+                        <td class="text-sm-center">{{ reserve.date }}</td>
+                        <td class="text-sm-center align-middle" rowspan="">
+                            {{ reserve.hour }}
+                        </td>
+                        <td class="text-sm-center actions">
+                            <button id="btn_add_{{i}}"
+                                class="btn btn-sm px-2 mx-1 btn-outline-primary bg-primary rounded-circle"
+                                (click)="handleAddReserveClick($event)">
+                                <fa-icon [icon]="icons['faPlus']" class=""></fa-icon>
+                            </button>
+                            <button id="btn_edit_{{i}}" class="btn btn-outline-secondary bg-secondary  btn-sm px-2 mx-1 rounded-circle" (click)="handleEditReserveClick($event)">
+                                <fa-icon [icon]="icons['faWrench']" class=""></fa-icon>
+                            </button>
+                            <button id="btn_remove_{{i}}" class="btn btn-outline-danger bg-danger btn-sm px-2 mx-1 rounded-circle ">
+                                <fa-icon [icon]="icons['faTimes']" class=""></fa-icon>
+                            </button>
+                            <button id="btn_complete_{{i}}" class="btn btn-outline-success bg-success btn-sm px-2 mx-1 rounded-circle" disabled>
+                                <fa-icon [icon]="icons['faCheck']" class=""></fa-icon>
+                            </button>
+                        </td>
+                        <td class="text-sm-center">
+                            {{ reserve.plate }}
+                        </td>
+                        <td class="text-sm-center">
+                            {{ service.revisionTypes[reserve.rev_type - 1] }}
+                        </td>
+                        <td class="text-sm-center">
+                            {{ reserve.driver }}
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
 </div>
 
-    <div class=" text-center bg-danger text-white">no hay nada por aqui</div>
-    <div class=" text-center">&copy;2020</div>
-
-    <app-data-edit [data]="reserv"></app-data-edit>
-
+<div class=" text-center bg-danger text-white">no hay nada por aqui</div>
+<div class=" text-center">&copy;2020</div>

@@ -26,7 +26,7 @@
         </div>
 
         <div class="col-12" id="date-group">
-            <div class="input-group" >
+            <div class="input-group">
                 <label for="Fecha" class="input-group-text" id="label-for-fecha">Fecha</label>
                 <input type="text" class="form-control" required="required" name="Fecha" id="Fecha"
                     (input)="validateDate($event)" [(ngModel)]="chosenDate" tabindex="2" size="10"
@@ -34,12 +34,15 @@
                 <div class="invalid-tooltip">
                     {{ dateError }}
                 </div>
-                <label for="datePicker" class="input-group-text" id="label-for-datepicker" (click)="togleDatePicker()"><fa-icon [icon]="icons['faCalendarAlt']" class=""></fa-icon></label>
+                <label for="datePicker" class="input-group-text" id="label-for-datepicker" (click)="togleDatePicker()">
+                    <fa-icon [icon]="icons['faCalendarAlt']" class=""></fa-icon>
+                </label>
 
             </div>
 
             <div style="position: relative;" *ngIf="showDatePicker">
-                <app-date-picker id="datePicker" [date]="chosenDate" (dateChangeEvent)="dateChangeEvent($event)"></app-date-picker>
+                <app-date-picker id="datePicker" [date]="chosenDate" (dateChangeEvent)="dateChangeEvent($event)">
+                </app-date-picker>
             </div>
         </div>
 
@@ -58,7 +61,7 @@
     </form>
 </nav>
 <div class="container">
-    <app-data-view [data]="data"></app-data-view>
+    <app-data-view></app-data-view>
 </div>
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
@@ -69,4 +72,4 @@
     <div class="offcanvas-body"></div>
 </div>
 
-
+<app-data-edit></app-data-edit>

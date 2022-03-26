@@ -1,0 +1,57 @@
+
+fieldset{
+    overflow-x: scroll; 
+    scrollbar-width: thin;
+}
+fieldset>.row{
+    width: 100%;
+}
+
+.row_custom{
+    align-items: center;
+    flex-wrap: nowrap; 
+}
+.row_custom >.col{
+    max-width: 300px;  
+    min-width: 150px;
+    animation-duration: .3s;
+    animation-name: slidein;
+}
+
+  @keyframes slidein {
+    from {
+    max-width: 50px; 
+    }
+  
+    to {
+        max-width: 300px; 
+    }
+  }
+
+  .row_custom >.removing{
+    animation-duration: .3s;
+    animation-name: slideout;
+    min-width: 50px;
+}
+@keyframes slideout {
+    from {
+    max-width: 300px; 
+    }
+  
+    to {
+        max-width: 50px; 
+    }
+  }
+
+.icon-link{
+    padding: 0px 2px;
+    margin: 2px;
+    transition: margin .3s;
+}
+.stacked-day{
+    display: flex;
+    padding-left: 15px;
+}
+
+
+
